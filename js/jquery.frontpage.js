@@ -1,38 +1,9 @@
-/*
-
-    .----.                    _..._                                                     .-'''-.
-   / .--./    .---.        .-'_..._''.                          _______                '   _    \
-  ' '         |   |.--.  .' .'      '.\     __.....__           \  ___ `'.           /   /` '.   \_________   _...._
-  \ \         |   ||__| / .'            .-''         '.    ,.--. ' |--.\  \         .   |     \  '\        |.'      '-.
-   `.`'--.    |   |.--.. '             /     .-''"'-.  `. //    \| |    \  ' .-,.--.|   '      |  '\        .'```'.    '.
-     `'-. `.  |   ||  || |            /     /________\   \\\    /| |     |  '|  .-. \    \     / /  \      |       \     \
-         `. \ |   ||  || |            |                  | `'--' | |     |  || |  | |`.   ` ..' /    |     |        |    |
-           \ '|   ||  |. '            \    .-------------' ,.--. | |     ' .'| |  | |   '-...-'`     |      \      /    .
-            | |   ||  | \ '.          .\    '-.____...---.//    \| |___.' /' | |  '-                 |     |\`'-.-'   .'
-            | |   ||__|  '. `._____.-'/ `.             .' \\    /_______.'/  | |                     |     | '-....-'`
-           / /'---'        `-.______ /    `''-...... -'    `'--'\_______|/   | |                    .'     '.
-     /...-'.'                       `                                        |_|                  '-----------'
-    /--...-'
-
-    Slice:Drop - Instantly view scientific and medical imaging data in 3D.
-
-     http://slicedrop.com
-
-    Copyright (c) 2012 The Slice:Drop and X Toolkit Developers <dev@goXTK.com>
-
-    Slice:Drop is licensed under the MIT License:
-      http://www.opensource.org/licenses/mit-license.php
-
-    CREDITS: http://slicedrop.com/LICENSE
-
-*/
-
 /**
  * The main handler for drag'n'drop and also for file selection. The XTK scene
  * gets created here and the viewer gets activated. Inspired by
  * http://imgscalr.com - THANKS!!
  */
-
+//detail
 
 jQuery(document).ready(function() {
 
@@ -41,7 +12,6 @@ jQuery(document).ready(function() {
 
   initBrowserWarning();
   initDnD();
-  initExamples();
 
   ren3d = null;
   configurator = function() {
@@ -203,67 +173,7 @@ function showLarge(el2, new3d_content) {
 
 };
 
-function initExamples() {
 
-  jQuery('.examples img').bind('mouseenter', function() {
-
-    jQuery('.examples img').removeClass('selectexample');
-    jQuery(this).addClass('selectexample');
-    jQuery('.examples div').hide();
-    var currentExample = jQuery(this).attr('id').replace('Image', '');
-    jQuery('#' + currentExample).show();
-
-  });
-
-  jQuery('#14yroldImage').click(function() {
-
-    window.location.href = "http://x.babymri.org/example1/?scene=http://x.babymri.org/example1/scene.json";
-
-  });
-
-  jQuery('#avfImage').click(function() {
-
-    window.location.href = "http://x.babymri.org/example2/?scene=http://x.babymri.org/example2/scene.json";
-
-  });
-
-  jQuery('#2yroldImage').click(function() {
-
-    window.location.href = "http://x.babymri.org/example3/?scene=http://x.babymri.org/example3/scene.json";
-
-  });
-
-  jQuery('#brainstemImage').click(function() {
-
-    window.location.href = "http://x.babymri.org/example4/?scene=http://x.babymri.org/example4/scene.json";
-
-  });
-
-  jQuery('#14yroldlink').click(function() {
-
-    window.location.href = "http://x.babymri.org/example1/?scene=http://x.babymri.org/example1/scene.json";
-
-  });
-
-  jQuery('#avflink').click(function() {
-
-    window.location.href = "http://x.babymri.org/example2/?scene=http://x.babymri.org/example2/scene.json";
-
-  });
-
-  jQuery('#2yroldlink').click(function() {
-
-    window.location.href = "http://x.babymri.org/example3/?scene=http://x.babymri.org/example3/scene.json";
-
-  });
-
-  jQuery('#brainstemlink').click(function() {
-
-    window.location.href = "http://x.babymri.org/example4/?scene=http://x.babymri.org/example4/scene.json";
-
-  });
-
-}
 
 function initBrowserWarning() {
 
@@ -274,6 +184,8 @@ function initBrowserWarning() {
     jQuery("#browser-warning").fadeIn(125);
   }
 };
+
+ // Drop File init
 
 function initDnD() {
 
@@ -348,6 +260,7 @@ function onDrop(evt) {
 
 };
 
+// show viewerBody and hide frontpage
 function switchToViewer() {
 
   jQuery('#body').addClass('viewerBody');

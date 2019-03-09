@@ -1,62 +1,56 @@
-<img src="http://slicedrop.com/gfx/slicedrop.png">
-========
+## Daily System Development Process
 
-<img src="http://slicedrop.com/gfx/workflow.png">
+### 1ST
 
-We think that the best way to render your files is without any necessary conversions. Just drop'em on this website and they are ready to render. Slice:Drop supports a variety of scientific file formats out-of-the-box (see <a href="#file-formats">here</a> for a complete list).
+1. 构建系统整体框架草图，明确系统原型图
+2. 搭建开发环境，安装配置开发所需的前端、后端开发库：JQuery、Bootstrap，以及核心的 WebGL 技术框架
+3. 选择合适的开发工具：Sublime Text3；测试浏览器的 WebGL 兼容性，FireFox and Chrome
+4. 查阅并对比各种效果之后选定开源的 XTK 作为核心的解析算法用于图像解析
 
-## Features and Technology
 
-<img src="http://slicedrop.com/gfx/features.png">
 
-Slice:Drop uses WebGL and HTML5 Canvas to render the data in 2D and 3D. We use our own open-source toolkit to perform the rendering, called <a href="http://goXTK.com">XTK</a>.
+### 2nd
 
-<img src="http://slicedrop.com/gfx/uipanel.png">
-<img src="http://slicedrop.com/gfx/multitouch.png">
+1. 开始编写系统主页：index.html
 
-## Security
+2. 引入开发所需的各种 css，js 库
 
-All data stays on the client and nothing gets transferred via the internet. This is totally safe!
+3. 构建第一个界面 frontpage， 显示系统的一些简要信息。整个界面上中下三部分：
+   ①上面部分显示系统的标题信息简介，以及一些系统的操作指南简介
 
-## File Formats
+   ②中间部分显示系统所支持的各种类型的文件信息，系统操作导引：可以通过 Select Files 或者直接 Drop Files 将文件从本地加载至系统当中
 
-The following file formats are currently supported:
+   ③底部信息显示一些开发者的信息
 
-Volumes
-* DICOM
-* NIfTI
-* MGH/MGZ 
-* NRRD
+   
 
-Meshes
-* VTK PolyData 
-* Freesurfer
-* STL
+### 3rd
 
-Fibers
-* TrackVis
+1. 继续编写 frontpage 部分，头部加入系统操作指南简要信息
 
-Misc.
-* Color Tables 
-* Scalars
+2. 引入一个 Bootstrap 模态框用于显示系统演示截图
 
-## License
-Copyright (c) 2012 The Slice:Drop and X Toolkit Developers  \<dev@goXTK.com>
+   ```html
+   <a class='btn btn-medium' data-toggle='modal' href='#learnMore'>Learn more &raquo;
+   </a><!-- bootstrap 模态框 -->
+   
+   <!-- Learn more 模态框的详细信息-->
+   <div class='modal hide fade' id='learnMore'
+        style='display: none; width: 800px; height: 610px; margin-top: -305px; margin-left: -400px;'>
+   ······
+   </div>
+   
+   ```
 
-Slice:Drop is licensed under the MIT License:
-  <a href="http://www.opensource.org/licenses/mit-license.php" target="_blank">http://www.opensource.org/licenses/mit-license.php</a>
+   
 
-## Publications
-* Hähn D, Rannou N, Grant PE, Pienaar R: <b>Slice:Drop</b>. IEEE VisWeek, SciVis Poster Session, September 2012. <a href="http://f1000.com/posters/browse/summary/1092719">Poster</a>.
-* <a href="https://github.com/xtk/X/wiki/X:publications">more..</a>
+3. 编写模态框的 CSS 代码，不禁感叹Bootstrap是真的牛逼！
 
-## Feedback
+4. 预留了一些 img 空间，方便之后加入一些效果图。
 
-We are very keen on your feedback, so please <a href="mailto:dev@goXTK.com">email us</a>.
 
-## Affiliations and Sponsors ##
-> <a href="http://childrenshospital.org/FNNDSC"><img src="http://xtk.github.com/chb_logo.png" alt="Boston Children's Hospital Boston" title="Children's Hospital"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-> <a href="http://hms.harvard.edu"><img src="http://xtk.github.com/hms_logo.png" alt="Harvard Medical School" title="Harvard Medical School"></a>
 
-> <a href="http://bostonbuilt.org"><img src='http://bostonbuilt.org/icon.php?q=built_in_boston_color_fancy.png&u=slicedrop.com' width=130></a>
- 
+### 4th
+
+1. 
+
