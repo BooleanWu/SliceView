@@ -1,6 +1,6 @@
 ## Daily System Development Process
 
-### 1ST
+### 1st
 
 1. 构建系统整体框架草图，明确系统原型图
 2. 搭建开发环境，安装配置开发所需的前端、后端开发库：JQuery、Bootstrap，以及核心的 WebGL 技术框架
@@ -39,10 +39,7 @@
         style='display: none; width: 800px; height: 610px; margin-top: -305px; margin-left: -400px;'>
    ······
    </div>
-   
    ```
-
-   
 
 3. 编写模态框的 CSS 代码，不禁感叹Bootstrap是真的牛逼！
 
@@ -52,5 +49,68 @@
 
 ### 4th
 
-1. 
+1. 编写 frontpage 中间部分，以图片的方式简单介绍系统支持的各种格式的文件模型
+
+2. 实现可以从本地选择文件，再次感叹Bootstrap的布局，真的牛批！
+
+   ```html
+   <input id='filebutton' type='file' multiple onchange='selectfiles(this.files)' style='display: none;'>
+   </input>
+   <a class='btn btn-inverse btn-large' style='vertical-align: super;' onclick='javascript:document.getElementById("filebutton").click();'>Selectfiles</a>
+   ```
+
+3. 编写frontpage 底部部分，附带简单的作者信息
+
+4. index.html 告一段落总结：
+   ①头部添加了模态框窗口介绍系统的操作规范
+   ②中间部分为主要操作区，用于选择本地文件
+   ③底部信息简单介绍作者信息
+
+
+
+### 5th
+
+1. 开始编写可视化平台界面，viewer.html，最终放弃
+
+2. 考虑到有文件导入过程，夸界面数据传输比较麻烦，所以决定吧viewer界面也写在了index.html中。
+
+3. 实现选择本地文件后，frontpage界面切换至viewer界面
+   ①选择文件：
+
+   ```html
+   <input id='filebutton' type='file' multiple onchange='selectfiles(this.files)' style='display: none;'>
+   ```
+
+   ②selectfiles函数：
+
+   ```js
+   function selectfiles(files) {
+   
+     // now switch to the viewer
+     switchToViewer();
+   
+     // .. and start the file reading
+     read(files);
+   
+   };
+   ```
+
+   ③switchToViewer函数：
+
+   ```js
+   // show viewerBody and hide frontpage
+   function switchToViewer() {
+   
+     jQuery('#body').addClass('viewerBody');
+     jQuery('#frontpage').hide();
+     jQuery('#viewer').show();
+   
+   };
+   ```
+
+4. jQuery是真的牛逼。
+
+
+
+### 6th
 

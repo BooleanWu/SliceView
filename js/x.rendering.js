@@ -213,7 +213,8 @@ function initializeRenderers(){
 
 function createData() {
 
-
+  // create database to contrast type
+  
   // we support here max. 1 of the following
   //
   // volume (.nrrd,.mgz,.mgh)
@@ -269,13 +270,12 @@ function read(files) {
 
   createData();
 
-  // show share button
-  $('#share').show();
-
   for ( var i = 0; i < files.length; i++) {
 
    var f = files[i];
    var _fileName = f.name;
+
+   // get the file extension name
    var _fileExtension = _fileName.split('.').pop().toUpperCase();
 
    // check for files with no extension
