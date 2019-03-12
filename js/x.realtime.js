@@ -202,6 +202,7 @@ RT.pushCamera = function(renderer) {
 
   var _current_view = Array.apply([], eval(renderer).camera.view);
 
+  //the view[] of camera, update the current view
   if ( !arraysEqual(_current_view, RT._old_view) ) {
 
     RT._link.trigger('client-camera-sync', {

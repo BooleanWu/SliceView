@@ -114,3 +114,101 @@
 
 ### 6th
 
+1. 继续完善viewer界面的后端数据传输
+
+2. 创建文件类型知识库，枚举所有类型的文件扩展名，用于判定传入的文件类型
+
+   ```js
+   function createData() {
+   
+     // create database to contrast type
+     
+     // volume (.nrrd,.mgz,.mgh)
+     // labelmap (.nrrd,.mgz,.mgh)
+     // colortable (.txt,.lut)
+     // mesh (.stl,.vtk,.fsm,.smoothwm,.inflated,.sphere,.pial,.orig)
+     // scalars (.crv)
+     // fibers (.trk)
+   
+     // includes the file object, file data and valid extensions for each object
+     _data = {
+      'volume': {
+        'file': [],
+        'filedata': [],
+        'extensions': ['NRRD', 'MGZ', 'MGH', 'NII', 'GZ', 'DCM', 'DICOM']
+      },
+      'mesh': {
+        'file': [],
+        'filedata': [],
+        'extensions': ['STL', 'VTK', 'FSM', 'SMOOTHWM', 'INFLATED', 'SPHERE',
+                       'PIAL', 'ORIG', 'OBJ']
+      },
+      .......
+     }
+   ```
+
+3. 读入 fontpage 传入的本地文件，记录文件的类型，文件个数等信息。因为可能存在多文件的关联关系，所以把这些文件右关联至文件的filedata数据当中
+
+4. 数据传输完毕，奖最终的数据拿给parse函数，生成 xobject ，方便之后通过XTK开源库进行模型重建
+
+
+
+### 7th
+
+1. 开始编写 parse 解析函数
+   ①初始化一个3D render容器，用于渲染解析重建之后生成的三维模型
+
+   ```js
+   if (ren3d) {
+       // do this only once, if already exist render
+       return;
+     }
+   try {
+   
+       // create the XTK renderers
+       ren3d = new X.renderer3D();
+       ren3d.container = '3d';
+       ren3d.init();
+   
+       // add ontouch function
+       ren3d.interactor.onTouchStart = ren3d.interactor.onMouseDown = onTouchStart3D;
+       ren3d.interactor.onTouchEnd = ren3d.interactor.onMouseUp = onTouchEnd3D;
+       
+       ren3d.interactor.onMouseWheel = function(e) {
+   
+         if (RT.linked) {
+   		// set up camera RT = REALTIME RENDER
+           clearTimeout(RT._updater);
+           RT._updater = setTimeout(RT.pushCamera.bind(this, 'ren3d'), 150);
+   
+         }
+       };
+     }
+   ```
+
+   ②初始化3个2D render容器，用于渲染解析重建后的二维模型
+
+   ```js
+   // X: from top to bottom
+   sliceAx = new X.renderer2D();  
+   .......
+   sliceAx.init();
+   // Y: from left to right
+   sliceSag = new X.renderer2D();
+   ......
+   // Z: from front to behind
+   sliceCor = new X.renderer2D();
+   .......
+   
+   ```
+
+   
+
+   
+
+   
+
+   
+
+
+

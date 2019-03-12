@@ -19,8 +19,11 @@ function initializeRenderers(){
     ren3d = new X.renderer3D();
     ren3d.container = '3d';
     ren3d.init();
+
+    // add ontouch function
     ren3d.interactor.onTouchStart = ren3d.interactor.onMouseDown = onTouchStart3D;
     ren3d.interactor.onTouchEnd = ren3d.interactor.onMouseUp = onTouchEnd3D;
+    
     ren3d.interactor.onMouseWheel = function(e) {
 
       if (RT.linked) {
@@ -51,25 +54,29 @@ function initializeRenderers(){
 
   }
 
-
+  // X: from top to bottom
    sliceAx = new X.renderer2D();
    sliceAx.container = 'sliceAx';
    sliceAx.orientation = 'AXIAL';
    sliceAx.init();
+
    // observe the on touch thingie to enlarge
    sliceAx.interactor.onTouchStart = sliceAx.interactor.onMouseDown = onTouchStartAx;
    sliceAx.interactor.onTouchEnd = sliceAx.interactor.onMouseUp = onTouchEndAx;
    sliceAx.onSliceNavigation = onSliceNavigation;
 
+   // Y: from left to right
    sliceSag = new X.renderer2D();
    sliceSag.container = 'sliceSag';
    sliceSag.orientation = 'SAGITTAL';
    sliceSag.init();
+
    // observe the on touch thingie to enlarge
    sliceSag.interactor.onTouchStart = sliceSag.interactor.onMouseDown = onTouchStartSag;
    sliceSag.interactor.onTouchEnd = sliceSag.interactor.onMouseUp = onTouchEndSag;
    sliceSag.onSliceNavigation = onSliceNavigation;
 
+   // Z: from front to behind
    sliceCor = new X.renderer2D();
    sliceCor.container = 'sliceCor';
 
@@ -107,7 +114,7 @@ function initializeRenderers(){
 
     window.console.log('Loading completed.');
 
-    if (_data.volume.file.length > 0) {
+    if (_data. .file.length > 0) {
 
       // show any volume also in 2d
        sliceAx.add(volume);
