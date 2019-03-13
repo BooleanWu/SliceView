@@ -100,11 +100,9 @@
    ```js
    // show viewerBody and hide frontpage
    function switchToViewer() {
-   
      jQuery('#body').addClass('viewerBody');
      jQuery('#frontpage').hide();
      jQuery('#viewer').show();
-   
    };
    ```
 
@@ -155,8 +153,12 @@
 
 ### 7th
 
-1. 开始编写 parse 解析函数
+1. 开始编写 parse 解析函数, 以volume 格式为例
    ①初始化一个3D render容器，用于渲染解析重建之后生成的三维模型
+
+   ```html
+   <div id='3d' class='threeDRenderer'></div>
+   ```
 
    ```js
    if (ren3d) {
@@ -180,7 +182,6 @@
    		// set up camera RT = REALTIME RENDER
            clearTimeout(RT._updater);
            RT._updater = setTimeout(RT.pushCamera.bind(this, 'ren3d'), 150);
-   
          }
        };
      }
@@ -188,27 +189,102 @@
 
    ②初始化3个2D render容器，用于渲染解析重建后的二维模型
 
+   ```html
+   <div id='sliceAx' class='twoDRenderer'>
+   <div id='sliceSag' class='twoDRenderer'>
+   <div id='sliceCor' class='twoDRenderer'>
+   ```
+
    ```js
-   // X: from top to bottom
+   
+   // Z: from top to bottom
    sliceAx = new X.renderer2D();  
    .......
    sliceAx.init();
-   // Y: from left to right
+   // X: from left to right
    sliceSag = new X.renderer2D();
    ......
-   // Z: from front to behind
+   // Y: from front to behind
    sliceCor = new X.renderer2D();
    .......
+   ```
+
+   ③ 为以上的两种渲染器都添加了 ontouch ，可以触屏控制操作
+
    
+
+### 8th
+
+1. 先渲染三个维度的二维的图像，并未三个维度添加滑动条，实现操控滑动条完成分层显示切片，分别位于三个维度2D渲染器的子容器下
+
+   ```html
+   <div id='blue_slider'></div>
+   <div id='red_slider'></div>
+   <div id='green_slider'></div>
+   ```
+
+2. 在场景左侧添加菜单栏 menu，可以对模型对一些属性上的修改，如曝光度、阈值等(XTK可选属性).在menu面板是用bootstrap- ui添加些必要的按钮以及功能
+
+   ```html
+   <li id='volume' class='navigationLi'><div class='menu'>
+       ......
+   </li>
+   <li id='volume' class='navigationLi'><div class='menu'>
+       ......
+   </li>
+   <li id='volume' class='navigationLi'><div class='menu'>
+       ......
+   </li>
+   ```
+
+3. 实现不同格式的文件导入，激活相对应的menu。
+
+   ```js
+   // for example 
+   jQuery('#fibers .menu').removeClass('menuDisabled');
+   jQuery('#fibers .menu').addClass('menuDisabled');
+   ```
+
+
+
+### 9th
+
+1. 将解析完毕所得的数据根据类型的不同相对应的加入到 3D 场景以及右侧三个维度的 2D render
+
+   ```js
+   // add the volume
+   ren3d.add(volume);
+   ren3d.camera.position = [0,500,0];  //initialization camera 
+   ren3d.render();
+   // 2D render
+   if (_data.volume.file.length > 0) {
+   
+         // show any volume also in 2d
+          sliceAx.add(volume);
+          sliceSag.add(volume);
+          // don't add it again if webgl is not supported
+          if (_webgl_supported){sliceCor.add(volume);}
+          sliceAx.render();
+          sliceSag.render();
+          sliceCor.render();
+   }
    ```
 
    
 
-   
 
-   
 
-   
+
+
+
+
+
+
+
+
+
+
+
 
 
 

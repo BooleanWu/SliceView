@@ -56,7 +56,7 @@ jQuery(document).ready(function() {
 
     // we have a scene
     var _scene = document.location.href.split('=');
-    _scene.shift(); // remove first part (slicedrop.com?scene)
+    _scene.shift(); // remove first part 
 
     _scene = _scene.join('=');
 

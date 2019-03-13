@@ -54,7 +54,7 @@ function initializeRenderers(){
 
   }
 
-  // X: from top to bottom
+  // Z: from top to bottom
    sliceAx = new X.renderer2D();
    sliceAx.container = 'sliceAx';
    sliceAx.orientation = 'AXIAL';
@@ -65,7 +65,7 @@ function initializeRenderers(){
    sliceAx.interactor.onTouchEnd = sliceAx.interactor.onMouseUp = onTouchEndAx;
    sliceAx.onSliceNavigation = onSliceNavigation;
 
-   // Y: from left to right
+   // X: from left to right
    sliceSag = new X.renderer2D();
    sliceSag.container = 'sliceSag';
    sliceSag.orientation = 'SAGITTAL';
@@ -76,7 +76,7 @@ function initializeRenderers(){
    sliceSag.interactor.onTouchEnd = sliceSag.interactor.onMouseUp = onTouchEndSag;
    sliceSag.onSliceNavigation = onSliceNavigation;
 
-   // Z: from front to behind
+   // Y: from front to behind
    sliceCor = new X.renderer2D();
    sliceCor.container = 'sliceCor';
 
@@ -114,7 +114,7 @@ function initializeRenderers(){
 
     window.console.log('Loading completed.');
 
-    if (_data. .file.length > 0) {
+    if (_data.volume.file.length > 0) {
 
       // show any volume also in 2d
        sliceAx.add(volume);
@@ -131,7 +131,7 @@ function initializeRenderers(){
 
     window.console.timeEnd('Loadtime');
 
-    setupUi();
+    setupUi();   // for render2d build slider to change view 
     configurator();
 
   };
@@ -147,8 +147,6 @@ function initializeRenderers(){
     if (_data.volume.file.length > 0) {
 
       jQuery('#red_slider').slider("option", "value",volume.indexX);
-      // jQuery('#red_slider').slider("option", "value",volume.indexY);
-      // jQuery('#green_slider').slider("option", "value",volume.indexZ);
 
       if (RT.linked) {
 

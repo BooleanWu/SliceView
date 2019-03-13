@@ -1,35 +1,4 @@
-/*
 
-    .----.                    _..._                                                     .-'''-.
-   / .--./    .---.        .-'_..._''.                          _______                '   _    \
-  ' '         |   |.--.  .' .'      '.\     __.....__           \  ___ `'.           /   /` '.   \_________   _...._
-  \ \         |   ||__| / .'            .-''         '.    ,.--. ' |--.\  \         .   |     \  '\        |.'      '-.
-   `.`'--.    |   |.--.. '             /     .-''"'-.  `. //    \| |    \  ' .-,.--.|   '      |  '\        .'```'.    '.
-     `'-. `.  |   ||  || |            /     /________\   \\\    /| |     |  '|  .-. \    \     / /  \      |       \     \
-         `. \ |   ||  || |            |                  | `'--' | |     |  || |  | |`.   ` ..' /    |     |        |    |
-           \ '|   ||  |. '            \    .-------------' ,.--. | |     ' .'| |  | |   '-...-'`     |      \      /    .
-            | |   ||  | \ '.          .\    '-.____...---.//    \| |___.' /' | |  '-                 |     |\`'-.-'   .'
-            | |   ||__|  '. `._____.-'/ `.             .' \\    /_______.'/  | |                     |     | '-....-'`
-           / /'---'        `-.______ /    `''-...... -'    `'--'\_______|/   | |                    .'     '.
-     /...-'.'                       `                                        |_|                  '-----------'
-    /--...-'
-
-    Slice:Drop - Instantly view scientific and medical imaging data in 3D.
-
-     http://slicedrop.com
-
-    Copyright (c) 2012 The Slice:Drop and X Toolkit Developers <dev@goXTK.com>
-
-    Slice:Drop is licensed under the MIT License:
-      http://www.opensource.org/licenses/mit-license.php
-
-    CREDITS: http://slicedrop.com/LICENSE
-
-*/
-
-/**
- * Setup all UI elements once the loading was completed.
- */
 function setupUi() {
 
   // VOLUME
@@ -57,19 +26,19 @@ function setupUi() {
     // update 2d slice sliders
     var dim = volume.range;
 
-    // ax
+    // ax == Z
     jQuery("#blue_slider").slider("option", "disabled", false);
     jQuery("#blue_slider").slider("option", "min", 0);
     jQuery("#blue_slider").slider("option", "max", dim[2] - 1);
     jQuery("#blue_slider").slider("option", "value", volume.indexZ);
 
-    // sag
+    // sag == X
     jQuery("#red_slider").slider("option", "disabled", false);
     jQuery("#red_slider").slider("option", "min", 0);
     jQuery("#red_slider").slider("option", "max", dim[0] - 1);
     jQuery("#red_slider").slider("option", "value", volume.indexX);
 
-    // cor
+    // cor == Y
     jQuery("#green_slider").slider("option", "disabled", false);
     jQuery("#green_slider").slider("option", "min", 0);
     jQuery("#green_slider").slider("option", "max", dim[1] - 1);
@@ -174,8 +143,7 @@ function setupUi() {
 
   }
 
-  initialize_sharing();
-
+  // initialize_sharing();    //can share the file but not need
 
 }
 
@@ -330,7 +298,6 @@ function fgColorVolume(hex, rgb) {
 }
 
 function bgColorVolume(hex, rgb) {
-
   if (!volume) {
     return;
   }
