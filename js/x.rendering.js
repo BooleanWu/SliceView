@@ -138,10 +138,10 @@ function initializeRenderers(){
 
 
   //
-  // LINK THE RENDERERS
-  //
   // link the 2d renderers to the 3d one by setting the onScroll
   // method. this means, once you scroll in 2d, it upates 3d as well
+
+  //  X
   var _updateThreeDSag = function() {
 
     if (_data.volume.file.length > 0) {
@@ -158,6 +158,7 @@ function initializeRenderers(){
     }
 
   };
+  // Z
   var _updateThreeDAx = function() {
 
     if (_data.volume.file.length > 0) {
@@ -174,6 +175,7 @@ function initializeRenderers(){
     }
 
   };
+  // Y
   var _updateThreeDCor = function() {
 
     if (_data.volume.file.length > 0) {
@@ -191,9 +193,9 @@ function initializeRenderers(){
 
   };
 
-  sliceAx.onScroll = _updateThreeDAx;
-  sliceSag.onScroll = _updateThreeDSag;
-  sliceCor.onScroll = _updateThreeDCor;
+  sliceAx.onScroll = _updateThreeDAx;  // Z
+  sliceSag.onScroll = _updateThreeDSag; // x
+  sliceCor.onScroll = _updateThreeDCor; // Y
 
   var _updateWLSlider = function() {
 
@@ -432,15 +434,21 @@ function parse(data) {
 
   }
 
+  // create volume xobject
+
   if (data['volume']['file'].length > 0) {
 
    // we have a volume
    volume = new X.volume();
+
+   // get the file from _data we load from local
    volume.file = data['volume']['file'].map(function(v) {
 
      return v.name;
 
    });
+   
+   // get the filedata from _data wo load from local
    volume.filedata = data['volume']['filedata'];
    var colortableParent = volume;
 

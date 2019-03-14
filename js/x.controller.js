@@ -24,13 +24,7 @@ function setupUi() {
     volume.modified();
 
     // update 2d slice sliders
-    var dim = volume.range;
-
-    // ax == Z
-    jQuery("#blue_slider").slider("option", "disabled", false);
-    jQuery("#blue_slider").slider("option", "min", 0);
-    jQuery("#blue_slider").slider("option", "max", dim[2] - 1);
-    jQuery("#blue_slider").slider("option", "value", volume.indexZ);
+    var dim = volume.range;   // the range of three volume.size
 
     // sag == X
     jQuery("#red_slider").slider("option", "disabled", false);
@@ -43,6 +37,12 @@ function setupUi() {
     jQuery("#green_slider").slider("option", "min", 0);
     jQuery("#green_slider").slider("option", "max", dim[1] - 1);
     jQuery("#green_slider").slider("option", "value", volume.indexY);
+
+    // ax == Z
+    jQuery("#blue_slider").slider("option", "disabled", false);
+    jQuery("#blue_slider").slider("option", "min", 0);
+    jQuery("#blue_slider").slider("option", "max", dim[2] - 1);
+    jQuery("#blue_slider").slider("option", "value", volume.indexZ);
 
 
     jQuery('#volume .menu').removeClass('menuDisabled');

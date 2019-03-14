@@ -3,6 +3,7 @@ RT.linked = false;
 RT.channel = null;
 RT.pusher = null;
 
+// 2D render linked to 3D render
 RT.link = function() {
 
   if ( !RT.linked ) {
@@ -20,8 +21,11 @@ RT.link = function() {
     RT.channel = 'private-' + channelname;
     RT._link = RT.pusher.subscribe(RT.channel);
 
-    RT._updater = 1;
-    RT._updater2 = 1;
+    // for 2d render linked to 3d render
+    RT._updater = 1; 
+
+    // for both 2d render and 3d render to change windowslevel threshold  
+    RT._updater2 = 1;  
     RT._old_view = [ 1 ];
 
     // the events
@@ -198,6 +202,8 @@ RT.link = function() {
 
 };
 
+
+// camera realtime change
 RT.pushCamera = function(renderer) {
 
   var _current_view = Array.apply([], eval(renderer).camera.view);
@@ -216,6 +222,7 @@ RT.pushCamera = function(renderer) {
 
 };
 
+// model realtime change value
 RT.pushVolume = function(target, value) {
 
   RT._link.trigger('client-volume-sync', {

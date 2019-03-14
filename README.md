@@ -153,8 +153,48 @@
 
 ### 7th
 
-1. 开始编写 parse 解析函数, 以volume 格式为例
-   ①初始化一个3D render容器，用于渲染解析重建之后生成的三维模型
+1. 提取由本地load的文件数据存储在_data变量中的信息，创建xobject，分为三大类：**volume**， **mesh**和**fiber**
+
+```js
+// create volume xobject
+
+if (data['volume']['file'].length > 0) {
+
+    // we have a volume
+    volume = new X.volume();
+
+    // get the file from _data we load from local
+    volume.file = data['volume']['file'].map(function(v) {
+
+        return v.name;
+
+    });
+
+    // get the filedata from _data wo load from local
+    volume.filedata = data['volume']['filedata'];
+    var colortableParent = volume;
+
+    if (data['labelmap']['file'].length > 0) {
+
+        // we have a label map
+        volume.labelmap.file = data['labelmap']['file'].map(function(v) {
+
+            return v.name;
+
+        });
+        volume.labelmap.filedata = data['labelmap']['filedata'];
+        colortableParent = volume.labelmap;
+
+    }
+```
+
+
+
+### 8th
+
+1. 开始编写 parse 解析函数, 配置用于渲染的render(以volume 格式为例)
+
+2. ①初始化一个3D render容器，用于渲染解析重建之后生成的三维模型
 
    ```html
    <div id='3d' class='threeDRenderer'></div>
@@ -213,7 +253,7 @@
 
    
 
-### 8th
+### 9th
 
 1. 先渲染三个维度的二维的图像，并未三个维度添加滑动条，实现操控滑动条完成分层显示切片，分别位于三个维度2D渲染器的子容器下
 
@@ -247,7 +287,7 @@
 
 
 
-### 9th
+### 10th
 
 1. 将解析完毕所得的数据根据类型的不同相对应的加入到 3D 场景以及右侧三个维度的 2D render
 
@@ -270,7 +310,123 @@
    }
    ```
 
+2. 将render中渲染的所有的视角图像保存到3D 场景中的相机中，用于视角的切换
+
+   ```js
+   var _current_view = Array.apply([], eval(renderer).camera.view);
    
+   //the view[] of camera, update the current view
+   if ( !arraysEqual(_current_view, RT._old_view) ) {
+   
+       RT._link.trigger('client-camera-sync', {
+           'target' : renderer,
+           'value' : _current_view
+       });
+   
+       RT._old_view = _current_view;
+   }
+   ```
+
+3. 完成解析和数据装载工作之后，进行realtime render，配置渲染器之间，实时相机角度，文件模型的实时图像的对应关系
+
+   ```js
+   // 2d render linked to 3d render
+   RT.link = function() {
+       ......
+   }
+   // camera realtime view
+   RT.pushCamera = function(renderer){
+       ......
+   }
+   // volume realtime change value for target render
+   RT.pushVolume = function(target, value){
+       ......
+   }
+   ```
+
+
+
+### 11th ~ 12th
+
+
+
+1. 建立右侧slide滑动条和二维图像的对应关系，获取volume三个维度的range，并且将每个维度的range赋值给slide的滑动区间属性（**以X轴为列**）
+
+   ```js
+   // update 2d slice sliders
+   var dim = volume.range;   // the range of three volume.size
+   
+   // sag == X
+   jQuery("#red_slider").slider("option", "disabled", false);
+   jQuery("#red_slider").slider("option", "min", 0);
+   jQuery("#red_slider").slider("option", "max", dim[0] - 1);
+   ......
+   ......
+   ```
+
+2. 由slider当前的value计算volume的index属性，并在3D render和 2D render中渲染出对应维度的图像模型
+
+   ```js
+   volume.indexX = Math.floor(jQuery('#red_slider').slider("option", "value"));
+   
+   //2D render realtime update
+   jQuery("#red_slider").slider("option", "value", volume.indexX);
+   // 3D render realtime update
+   if (RT.linked) {
+       clearTimeout(RT._updater);
+       RT._updater = setTimeout(RT.pushVolume.bind(RT, 'opacity', volume.opacity), 150);
+   
+   }
+   ```
+
+   
+
+3. 实现改变右侧三个维度slide调整，切换层级显示二维图像，3D render中同步完成扫描动作。达到3D 场景当中三个维度的扫描右侧对应显示相应维度的slice 二维图像
+   ①在这种状态下，3D render 渲染显示的为右侧 2D render 三个维度二维图像拼接成的一个"伪" 三维模型。
+   ②在二维图形通过slide滑动切换图像时，3D render 实时更新单维度的图像显示
+
+   ```js
+   // for 2d render linked to 3d render
+   RT._updater = 1;
+   // update the 3d render view, example red_slieder == X
+   var _updateThreeDSag = function() {
+   
+       if (_data.volume.file.length > 0) {
+   
+         jQuery('#red_slider').slider("option", "value",volume.indexX);
+   
+         if (RT.linked) {
+   
+           clearTimeout(RT._updater);
+           RT._updater = setTimeout(RT.pushVolume.bind(RT, 'indexX', volume.indexX), 150);
+   
+         }
+       }
+     };
+   ......
+   ......
+   sliceAx.onScroll = _updateThreeDAx;  // Z
+   sliceSag.onScroll = _updateThreeDSag; // x
+   sliceCor.onScroll = _updateThreeDCor; // y
+   ```
+
+
+
+### 13th
+
+1. window/Level and Threshold
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
