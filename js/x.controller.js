@@ -167,7 +167,7 @@ function volumerenderingOnOff(bool) {
 
 
 }
-
+// initialization threshold，setting lower to upper
 function thresholdVolume(event, ui) {
 
   if (!volume) {
@@ -185,8 +185,6 @@ function thresholdVolume(event, ui) {
     RT._updater2 = setTimeout(RT.pushVolume.bind(RT, 'upperThreshold', volume.upperThreshold), 150);
 
   }
-
-
 }
 
 function windowLevelVolume(event, ui) {
@@ -194,7 +192,7 @@ function windowLevelVolume(event, ui) {
   if (!volume) {
     return;
   }
-
+      
   volume.windowLow = ui.values[0];
   volume.windowHigh = ui.values[1];
 
@@ -206,8 +204,6 @@ function windowLevelVolume(event, ui) {
     RT._updater2 = setTimeout(RT.pushVolume.bind(RT, 'windowHigh', volume.windowHigh), 150);
 
   }
-
-
 }
 
 function opacity3dVolume(event, ui) {

@@ -414,7 +414,50 @@ if (data['volume']['file'].length > 0) {
 
 ### 13th
 
-1. window/Level and Threshold
+1. 设定UI界面的 threshold 属性（针对已经渲染好的图形进行图像参数上的调整，自定义一个阈值）
+
+   ```js
+   // initialization threshold，setting lower to upper
+   function thresholdVolume(event, ui) {
+   
+     if (!volume) {
+       return;
+     }
+     volume.lowerThreshold = ui.values[0];
+     volume.upperThreshold = ui.values[1];
+     ......
+   } 
+   ```
+
+2. 设定UI界面的 Windows/Level 属性(类似于透明度)
+
+   ```js
+   function windowLevelVolume(event, ui) {
+   
+     if (!volume) {
+       return;
+     }
+         
+     volume.windowLow = ui.values[0];
+     volume.windowHigh = ui.values[1];
+   
+     ......
+   }
+   ```
+
+3. 传播给前端
+
+   ```JS
+   jQuery('#opacity-volume').slider("option", "value", volume.opacity * 100);
+   jQuery('#threshold-volume').dragslider("option", "values", [volume.lowerThreshold, volume.upperThreshold]);
+   jQuery('#windowlevel-volume').dragslider("option", "values", [volume.windowLow, volume.windowHigh]);
+   ```
+
+
+
+### 14th
+
+1.  针对 .VTK, .OBJ 等mesh文件模型添加颜色渲染、透明度调整、
 
 
 

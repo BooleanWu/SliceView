@@ -51,6 +51,8 @@ RT.link = function() {
       volume[data.target] = data.value;
 
       // propagate back to UI
+
+      //update  X Y Z
       jQuery("#yellow_slider").slider("option", "value", volume.indexLR);
       jQuery("#red_slider").slider("option", "value", volume.indexIS);
       jQuery("#green_slider").slider("option", "value", volume.indexPA);
@@ -71,6 +73,7 @@ RT.link = function() {
         jQuery('#opacity-volume').hide();
       }
 
+      // upadate threshold and windowslevel
       jQuery('#opacity-volume').slider("option", "value", volume.opacity * 100);
       jQuery('#threshold-volume').dragslider("option", "values", [volume.lowerThreshold, volume.upperThreshold]);
       jQuery('#windowlevel-volume').dragslider("option", "values", [volume.windowLow, volume.windowHigh]);
@@ -85,9 +88,8 @@ RT.link = function() {
 
       jQuery('#bgColorVolume').miniColors("value", bgColor);
       jQuery('#fgColorVolume').miniColors("value", fgColor);
-
-
     });
+    
     RT._link.bind('client-labelmap-sync', function(data) {
 
       if (_data.labelmap.file.length == 0) {
