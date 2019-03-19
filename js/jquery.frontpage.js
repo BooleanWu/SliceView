@@ -185,13 +185,15 @@ function initBrowserWarning() {
   }
 };
 
- // Drop File init
+// Drop File init
 
 function initDnD() {
 
   // Add drag handling to target elements
   document.getElementById("body").addEventListener("dragenter", onDragEnter,
       false);
+
+  // Add drag leve and over EventListener
   document.getElementById("drop-box-overlay").addEventListener("dragleave",
       onDragLeave, false);
   document.getElementById("drop-box-overlay").addEventListener("dragover",
@@ -200,19 +202,21 @@ function initDnD() {
   // Add drop handling
   document.getElementById("drop-box-overlay").addEventListener("drop", onDrop,
       false);
-
 };
 
 function noopHandler(evt) {
 
+  // 由于drop是针对全局的，该方法将停止事件的传播，阻止它被分派到其他 Document 节点
   evt.stopPropagation();
+  
+  // 阻止打开链接
   evt.preventDefault();
 };
 
 function onDragEnter(evt) {
 
   jQuery("#drop-box-overlay").fadeIn(125);
-  jQuery("#drop-box-prompt").fadeIn(125);
+  //jQuery("#drop-box-prompt").fadeIn(125);
 };
 
 function onDragLeave(evt) {
@@ -222,20 +226,13 @@ function onDragLeave(evt) {
    * gets fired by JavaScript when you mouse over the child of a parent element;
    * instead of firing a subsequent enter event for the child, JavaScript first
    * fires a LEAVE event for the parent then an ENTER event for the child even
-   * though the mouse is still technically inside the parent bounds. If we trust
-   * the dragenter/dragleave events as-delivered, it leads to "flickering" when
-   * a child element (drop prompt) is hovered over as it becomes invisible, then
-   * visible then invisible again as that continually triggers the enter/leave
-   * events back to back. Instead, we use a 10px buffer around the window frame
-   * to capture the mouse leaving the window manually instead. (using 1px didn't
-   * work as the mouse can skip out of the window before hitting 1px with high
-   * enough acceleration).
+   * though the mouse is still technically inside the parent bounds.
    */
   if (evt.pageX < 10 || evt.pageY < 10 ||
       jQuery(window).width() - evt.pageX < 10 ||
       jQuery(window).height - evt.pageY < 10) {
     jQuery("#drop-box-overlay").fadeOut(125);
-    jQuery("#drop-box-prompt").fadeOut(125);
+    //jQuery("#drop-box-prompt").fadeOut(125);
   }
 };
 
@@ -246,7 +243,7 @@ function onDrop(evt) {
 
   // Hide overlay
   jQuery("#drop-box-overlay").fadeOut(0);
-  jQuery("#drop-box-prompt").fadeOut(0);
+  //jQuery("#drop-box-prompt").fadeOut(0);
 
   // Get the dropped files.
   var files = evt.dataTransfer.files;
@@ -279,33 +276,3 @@ function selectfiles(files) {
 
 };
 
-// From http://stackoverflow.com/a/11448009/1183453
-function downloadFile(url)
-{
-    var iframe = document.createElement("iframe");
-    iframe.src = url;
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
-}
-
-function downloadFiles(urls)
-{
-    downloadFile(urls[0]);
-    if (urls.length > 1){window.setTimeout(function () { downloadFiles(urls.slice(1)); }, 1000);}
-}
-
-// debug logging (for mobile)
-_LOG_ = false;
-
-function log(msg) {
-
-  if (!_LOG_) {
-    return;
-  }
-
-  var now = new Date();
-  var timestamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-'
-      + now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes() + ':'
-      + now.getSeconds();
-  $('#log').html($('#log').html()+timestamp+' '+msg+'<br>');
-}

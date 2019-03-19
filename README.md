@@ -457,7 +457,101 @@ if (data['volume']['file'].length > 0) {
 
 ### 14th
 
-1.  针对 .VTK, .OBJ 等mesh文件模型添加颜色渲染、透明度调整、
+1. 针对 .VTK, .OBJ 等mesh文件模型添加颜色渲染、透明度调整、以及多个模型的同时渲染
+   ①透明度调整
+
+   ```js
+   jQuery('#opacity-mesh').slider("option", "value", mesh.opacity * 100);
+   ```
+
+   ②模型颜色的渲染
+
+   ```js
+   var meshColor = ((1 << 24) + (mesh.color[0] * 255 << 16) + (mesh.color[1] * 255 << 8) + mesh.color[2] * 255).toString(16).substr(1);
+   jQuery('#meshColor').miniColors("value", meshColor);
+   ```
+
+   ③3D 场景当中先渲染一个模型然后调整到最佳的属性，然后再次拖入模型以达到多模型同时渲染
+
+
+
+### 15th
+
+1. 定义文件拖入效果块元素
+
+   ```html
+   <div id='drop-box-overlay'>
+   	<h1>Drop files anywhere...</h1>
+   </div>
+   ```
+
+2. 实现拖入式文件导入，可以直接将文件直接拖入web界面，实现与从本地导入文件相同的效果
+   ①初始化 Drop File 功能定义：
+
+   ```js
+   // Drop File init
+   function initDnD() {
+   
+     // Add drag handling to target elements
+     document.getElementById("body").addEventListener("dragenter", onDragEnter,
+         false);
+   
+     // Add drag leve and over EventListener
+     document.getElementById("drop-box-overlay").addEventListener("dragleave",
+         onDragLeave, false);
+     document.getElementById("drop-box-overlay").addEventListener("dragover",
+         noopHandler, false);
+   
+     // Add drop handling
+     document.getElementById("drop-box-overlay").addEventListener("drop", onDrop,
+         false);
+   };
+   
+   ```
+
+   ②onDragEnter 具体实现全局
+
+   ```js
+   function onDragEnter(evt) {
+   
+     jQuery("#drop-box-overlay").fadeIn(125);
+     //jQuery("#drop-box-prompt").fadeIn(125);
+   };
+   ```
+
+   
+
+   ③ onDragLeave 具体实现，通过当前拖动事件所处的windows坐标判定是否触发：
+
+   ```js
+   function onDragLeave(evt) {
+     if (evt.pageX < 10 || evt.pageY < 10 ||
+         jQuery(window).width() - evt.pageX < 10 ||
+         jQuery(window).height - evt.pageY < 10) {
+       jQuery("#drop-box-overlay").fadeOut(125);
+       jQuery("#drop-box-prompt").fadeOut(125);
+     }
+   };
+   ```
+
+   ④ 由于onDragEnter是全局的，所以在实现 dragover 函数需要阻止一些异常的发生：
+
+   ```js
+   function noopHandler(evt) {
+   
+     // 由于drop是针对全局的，该方法将停止事件的传播，阻止它被分派到其他 Document 节点
+     evt.stopPropagation();
+     
+     // 阻止打开链接
+     evt.preventDefault();
+   };
+   ```
+
+   
+
+   
+
+   
 
 
 
