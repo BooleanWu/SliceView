@@ -609,7 +609,7 @@ function onTouchEnd3D() {
 
 function onTouchStart(renderer) {
 
-  log('Touch start');
+  // log('Touch start');
 
   _touch_started = Date.now();
 
